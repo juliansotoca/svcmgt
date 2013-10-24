@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/json.js"></script>
+
+  </head>
+  <body>
+    <h1>Test Json</h1>
+<div id="contenedor">contenedor</div>
+<script src="js/jquery.js"></script>
+    <script>
+		$(document).ready(function() {
+    //var obj = $.parseJSON(services);
+    //$.each(obj, function() {
+    //    lang += this.services['backend'] + "<br/>";
+    //});
+    //$('#contenedor').html(lang);
+var output="<ul>";
+for (var i in services.services) {
+    output+="<li>" + services.services[i].backend + "</li>";
+    output+="<ul>";
+    for (var fend in services.services[i].frontedns) {
+		output+="<li>" + services.services[i].frontedns[fend] + "</li>";
+	}
+	output+="</ul>";
+}
+
+output+="</ul>";
+document.getElementById("contenedor").innerHTML=output;
+
+});
+    </script>
+        
+  </body>
+</html>

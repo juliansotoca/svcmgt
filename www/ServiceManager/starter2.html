@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+    <title>Service Manager</title>
+	<script src="js/json.js"></script>
+	<script src="js/jquery.js"></script>
+    <!-- Custom styles for this template -->
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.css" rel="stylesheet">
+    <link href="starter-template.css" rel="stylesheet">
+	  
+
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    
+    <script>
+		$(document).ready(function() {
+			for (var i in services.services) {
+				$('#servicios').append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">' + services.services[i].service + '</a></li>');
+			}
+				
+	
+    //$('#Mydropdown').on('show.bs.dropdown', function () {
+	//	alert('Menu desplegado');
+	//});
+	
+		$('.servicio').bind('click', function() {
+			var currentAnchor = $(this);
+			$('#orchestrator').empty();
+			$('#orchestratorLog').empty();
+			$('#orchestratorBody').fadeIn('slow');
+			$('#orchestrator').html("<h1>Administracion servicios "+currentAnchor.text()+"</h1>");
+			$('#orchestrator').append('<div id="backend" class="container">');
+			$('#orchestrator').append('<div id="frontales" class="container">');
+			$('#orchestrator').append('<div id="control" class="container">');
+			$('#orchestratorLog').append('<div id="logConsole" class="container">');
+			printArchitecture('#orchestrator', currentAnchor.text());
+			//alert(currentAnchor.attr('href'));
+		});
+		
+		$('#orchestratorBody').hide();
+    
+		 //controlButtons();
+			 
+	//Fin document ready	 
+   		});
+	
+    </script>
+    
+
+    
+    
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Service Manager</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown" id='Mydropdown'>
+				  <!-- Link or button to toggle dropdown -->
+  <a href="#" class="dropdwon-toggle" data-toggle="dropdown">Servicios <b class="caret"></b></a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="servicios">
+  <!--  <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">ORCL</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">GFORCE</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">NEWTOUR</a></li>
+    <li role="presentation" class="divider"></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CONEXFLOW</a></li> -->
+  </ul>
+			</li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="User" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+		<div id="alert" class="mythumb" data-spy="affix" data-offset-top="50"></div>
+      <div class="starter-template">
+        <h1>Administración de servicios - Orchestrator</h1>
+        <p class="lead">Seleccione el servicio sobre el que quiere realizar un mantenimiento o tarea programada.</p>
+      </div>
+      <hr class="featurette-divider">
+      <div id="orchestratorBody" class="container row">
+		  <div class="col-md-9 thinborder" id="orchestrator"></div>
+		  <div class="col-md-3 thinborder orchestratorLog" id="orchestratorLog"></div>
+      </div>
+    </div><!-- /.container -->
+    <hr class="featurette-divider">
+    
+    <hr class="featurette-divider">
+    <div id="footer" class="footer footer-wrapper">
+      <div class="container">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>© 2013 Globalia Sistemas y comunicaciones - Julián García-Sotoca Pascual. · <a href="#">LINK1</a> · <a href="#">Link2</a></p>
+        <p>Automatizing everithing.</p>
+      </div>
+    </div>
+
+
+
+<div class="container" id="test">
+	<!--	<input type="checkbox" id="1" class="checkbox" />
+		<label for="1">SMS</label>
+		<input type="checkbox" id="2" class="checkbox" checked />
+		<label for="2">Default Checked</label>
+		<input type="checkbox" id="31" class="checkbox" disabled />
+		<label for="31">Disabled</label>
+		<input type="checkbox" id="32" class="checkbox" checked disabled />
+		<label for="32">Disabled</label>
+		<input type="checkbox" class="checkbox" id="0">
+		<label for="0">fend1</label>
+		<input type="checkbox" class="checkbox" id="1">
+		<label for="1">fend2</label>
+		<input type="checkbox" class="checkbox" id="2">
+		<label for="2">fend3</label>
+		<button type="button" class="btn btn-xs btn-success">Arrancar</button>
+		<button id="parar" type="button" class="btn btn-xs btn-danger">Parar</button>-->
+	</div>
+<!--<footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>© 2013 Globalia Sistemas y comunicaciones - Julián García-Sotoca Pascual. · <a href="#">LINK1</a> · <a href="#">Link2</a></p>
+        <p>Automatizing everithing.</p>
+      </footer>-->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="dist/js/bootstrap.min.js"></script>
+	<script>
+		printArchitecture = function(container, service) {
+			var backend='<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title">Backend: </p></div>'; 
+			for (var i in services.services) {
+				if (services.services[i].service === service ) {
+				
+				//backend+= '<span class="label label-default">'+ services.services[i].backend +'</span></h3></div>';
+				backend+='<div class="panel-footer"><input type="checkbox" id="backendButton" class="checkbox" checked /><label for=backendButton>' +  services.services[i].backend + '</label></div></div>';
+				var frontends='<div class="panel panel-success"><div class="panel-heading"><p class="panel-title">Frontales: </p></div>';
+				frontends+='<div class="panel-footer">';
+				var index=0;
+				for (var fend in services.services[i].frontedns) {
+					frontends+='<input type="checkbox" id="'+index+'" class="checkbox" checked /><label for='+index+'>' + services.services[i].frontedns[fend] + '</label>';
+					index++;
+					}
+				frontends+="</div></div>";
+			}
+			}
+			frontends+="<hr>";
+			$('#frontales').html(frontends);
+			$('#backend').html(backend);
+			
+			var control='<div class="panel panel-info"><div class="panel-heading"><p class="panel-title">Control: </p></div>';
+			control+='<div class="panel-footer">';
+			control+='<button type="button" class="btn btn-xs btn-success">Arrancar</button>';
+			control+='<button type="button" class="btn btn-xs btn-danger">Parar</button>';
+			control+='</div></div>';
+			$('#control').html(control);
+			controlButtons(service);
+			
+			var logConsole='<div class="panel panel-warning"><div class="panel-heading"><p class="panel-title">Log: </p></div>';
+			logConsole+='<div class="panel-footer" id="logContent"><p>Inicio variables</p>';
+			logConsole+='</div></div>';
+			$('#logConsole').html(logConsole);
+			resizeOrchestrator();
+			$('.footer').css('position','relative');
+			
+		}
+		
+		controlButtons = function(service) {
+			$('button').bind('click', function() { 
+			//alert('Boton pulsado');
+			var currentValue = $(this);
+			var accion = currentValue.text();
+			switch(accion) {
+				case 'Arrancar':
+					//alert('Se van a arrancar servicios de '+service);
+					startService(service);
+					break;
+				case 'Parar':
+					//alert('Se van a parar servicios de '+service);
+					stopService(service);
+					break;
+			}	
+			//alert(currentValue.text());
+			 });
+		}
+		
+		startService = function(service) {
+			//alert('startService - '+$("#frontales :input").length);
+			var arranque = '<p>Servidores seleccionados para arrancar: ';
+			$("#frontales :input").each(function(i) {  
+				//alert($(this).is(':checked'));
+				//alert($(this).next('label').text());
+				if ($(this).is(':checked')) {
+					arranque+=$(this).next('label').text()+'; '	
+				}
+				});
+			arranque+='</p>';
+			$('#logContent').html(arranque);
+		}
+		
+		stopService = function(service) {
+			var parada = '<p>Servidores seleccionados para parar: ';
+			var frontales = [];
+			$("#frontales :input").each(function(i) {  
+				if (!($(this).is(':checked'))) {
+					parada+=$(this).next('label').text()+'; '	
+					frontales.push($(this).next('label').text());
+				}
+				});
+			parada+='</p>';
+			$('#logContent').html(parada);
+			 var timeout = 1000;
+			for(var i=0; i<frontales.length; i++) {
+				timeout += 1000;
+				setTimeout(function(f){$('#logContent').append('<p>Parando servidor: '+f+'</p>')},timeout, frontales[i]);
+				resizeOrchestrator();
+			}
+			
+			alertMsg('blabla', 'info');
+			
+		}
+		
+		alertMsg = function(msg,level) {
+			//level must be success, info, warning or danger
+			var output = '<div class="alert alert-'+level+'">'
+			output+='<a class="close" data-dismiss="alert">×</a>'
+			output+='<strong>Info!</strong>Ejecucion finalizada.</div>'
+			//
+			$('#alert').hide()
+			$('#alert').html(output);
+			$('#alert').fadeIn("slow")
+			setTimeout(function(){$('#alert').fadeOut("slow")},5000);
+		}
+		
+		resizeOrchestrator = function() {
+			boxes = $('.thinborder');
+			maxHeight = Math.max.apply(
+				Math, boxes.map(function() {
+					return $(this).height();
+				}).get());
+			boxes.height(maxHeight);
+		}
+		
+		$(window).resize();
+  	</script>
+  </body>
+</html>
