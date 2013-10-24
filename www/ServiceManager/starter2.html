@@ -188,7 +188,7 @@
 			controlButtons(service);
 			
 			var logConsole='<div class="panel panel-warning"><div class="panel-heading"><p class="panel-title">Log: </p></div>';
-			logConsole+='<div class="panel-footer" id="logContent"><p>Inicio variables</p>';
+			logConsole+='<div class="panel-footer logContent" id="logContent"><p>Inicio variables</p>';
 			logConsole+='</div></div>';
 			$('#logConsole').html(logConsole);
 			resizeOrchestrator();
@@ -218,36 +218,99 @@
 		startService = function(service) {
 			//alert('startService - '+$("#frontales :input").length);
 			var arranque = '<p>Servidores seleccionados para arrancar: ';
+			var frontales = [];
+			var backend = [];
+			//listado elementos a arrancar
+			$("#backend :input").each(function(i) {  
+				//alert($(this).is(':checked'));
+				//alert($(this).next('label').text());
+				if ($(this).is(':checked')) {
+					arranque+=$(this).next('label').text()+'; '
+					backend.push($(this).next('label').text());	
+				}
+				});	
+			
 			$("#frontales :input").each(function(i) {  
 				//alert($(this).is(':checked'));
 				//alert($(this).next('label').text());
 				if ($(this).is(':checked')) {
-					arranque+=$(this).next('label').text()+'; '	
+					arranque+=$(this).next('label').text()+'; '
+					frontales.push($(this).next('label').text());	
 				}
 				});
+				
 			arranque+='</p>';
 			$('#logContent').html(arranque);
+			//Ejecucion arranques 1º ddbb 2º frontales
+			var timeout = 1000;
+			for(var i=0; i<backend.length; i++) {
+				timeout += 1000;
+				setTimeout(function(f){
+					var currentdate = new Date(); 
+					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
+					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>')		
+				},timeout, backend[i]);
+				resizeOrchestrator();
+			}
+			
+			for(var i=0; i<frontales.length; i++) {
+				timeout += 1000;
+				setTimeout(function(f){
+					var currentdate = new Date(); 
+					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
+					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>')		
+				},timeout, frontales[i]);
+				resizeOrchestrator();
+			}
+			
+			
+			alertMsg('Servidores arrancados', 'success');
 		}
 		
 		stopService = function(service) {
 			var parada = '<p>Servidores seleccionados para parar: ';
 			var frontales = [];
+			var backend = [];
+			//listado elementos a parar
 			$("#frontales :input").each(function(i) {  
 				if (!($(this).is(':checked'))) {
 					parada+=$(this).next('label').text()+'; '	
 					frontales.push($(this).next('label').text());
 				}
 				});
+				
+			$("#backend :input").each(function(i) {  
+				if (!($(this).is(':checked'))) {
+					parada+=$(this).next('label').text()+'; '	
+					backend.push($(this).next('label').text());
+				}
+				});	
+				
 			parada+='</p>';
 			$('#logContent').html(parada);
-			 var timeout = 1000;
+			//Ejecucion paradas 1º frontales 2º ddbb
+			var timeout = 1000;
 			for(var i=0; i<frontales.length; i++) {
 				timeout += 1000;
-				setTimeout(function(f){$('#logContent').append('<p>Parando servidor: '+f+'</p>')},timeout, frontales[i]);
+				setTimeout(function(f){
+					var currentdate = new Date(); 
+					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
+					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>')		
+				},timeout, frontales[i]);
 				resizeOrchestrator();
 			}
 			
-			alertMsg('blabla', 'info');
+			for(var i=0; i<backend.length; i++) {
+				timeout += 1000;
+				setTimeout(function(f){
+					var currentdate = new Date(); 
+					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
+					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>')		
+				},timeout, backend[i]);
+				resizeOrchestrator();
+			}
+			
+			alertMsg('Servidores parados', 'warning');
 			
 		}
 		
@@ -255,7 +318,7 @@
 			//level must be success, info, warning or danger
 			var output = '<div class="alert alert-'+level+'">'
 			output+='<a class="close" data-dismiss="alert">×</a>'
-			output+='<strong>Info!</strong>Ejecucion finalizada.</div>'
+			output+='<strong>'+level.toUpperCase()+'! </strong>'+msg+'.</div>'
 			//
 			$('#alert').hide()
 			$('#alert').html(output);
