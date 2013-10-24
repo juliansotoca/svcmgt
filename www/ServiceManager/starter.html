@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="starter-template.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -30,6 +31,52 @@
 				width: 600px;
 				}
       
+      input[type="radio"].radio {
+			display: none;
+		}
+		input[type="radio"].radio + label {
+			display: inline;
+			position: relative;
+			background-color: #b94a48;
+			/*label styling*/
+			padding: 2px 4px;
+			margin: 2px;
+			font-size: 11.844px;
+			font-weight: bold;
+			line-height: 14px;
+			color: #ffffff;
+			vertical-align: baseline;
+			white-space: nowrap;
+			text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+		}
+		input[type="radio"].radio:checked + label {
+			background-color: #468847;
+		}
+		input[type="radio"].radio:disabled + label {
+			opacity: 0.5;
+		}
+      
+      
+      .radio-toolbar input[type="radio"] {
+    display:none; 
+}
+
+.radio-toolbar label {
+    display:inline-block;
+    background-color:#b94a48;
+    padding:2px 4px;
+    font-family:Arial;
+    font-size:11.844px;
+    color: #ffffff;
+}
+
+.radio-toolbar input[type="radio"]:checked + label { 
+    background-color:#468847;
+}
+      
         </style>
     
     
@@ -50,6 +97,8 @@
     <li><a href="#">Separated link</a></li>
   </ul>
 </div>
+
+
 
 <div class="dropdown">
   <!-- Link or button to toggle dropdown -->
@@ -72,7 +121,56 @@
 
 </div>
 
+<div class="radio-toolbar">
+   
+    <input type="radio" id="radio1" name="radios" value="all" checked>
+    <label for="radio1">All</label>
 
+    <input type="radio" id="radio2" name="radios"value="false">
+    <label for="radio2">Open</label>
+
+    <input type="radio" id="radio3" name="radios" value="true">
+    <label for="radio3">Archived</label> 
+    
+    <input type="radio" name="radios" checked="" class="radio" id="backendButton">
+    <label for="backendButton">serverX</label>
+    <input type="radio" name="radios" class="radio" id="backupdButton">
+    <label for="backupdButton">serverY</label>
+
+</div>
+
+
+<div class="container" id="test">
+	<form>
+		<input type="radio" name="radioTest" value="SMS" id="1" class="checkbox">SMS
+		<input type="radio" name="radioTest" value="bla"id="2" class="checkbox">Default Checked
+		<input type="radio" name="radioTest" value="SNS">Male
+		<input type="radio" name="radioTest" value="Default checked">Female
+</form>
+
+<form>
+   <input type="radio" class="radio" name="sex" id="male" value="male">
+   <label for="male">Male</label>
+  <input type="radio" class="radio" name="sex" id="female" value="female" checked>
+  <label for="female">Female</label>
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
+
+
+		<input type="checkbox" id="31" class="checkbox" disabled />
+		<label for="31">Disabled</label>
+		<input type="checkbox" id="32" class="checkbox" checked disabled />
+		<label for="32">Disabled</label>
+		<input type="checkbox" class="checkbox" id="0">
+		<label for="0">fend1</label>
+		<input type="checkbox" class="checkbox" id="1">
+		<label for="1">fend2</label>
+		<input type="checkbox" class="checkbox" id="2">
+		<label for="2">fend3</label>
+		<button type="button" class="btn btn-xs btn-success">Arrancar</button>
+		<button id="parar" type="button" class="btn btn-xs btn-danger">Parar</button>
+</div>
 
 <div class="alert" id="alert">
 <div class="alert alert-info">

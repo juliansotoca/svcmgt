@@ -145,7 +145,12 @@
 		<input type="checkbox" class="checkbox" id="2">
 		<label for="2">fend3</label>
 		<button type="button" class="btn btn-xs btn-success">Arrancar</button>
-		<button id="parar" type="button" class="btn btn-xs btn-danger">Parar</button>-->
+		<button id="parar" type="button" class="btn btn-xs btn-danger">Parar</button>
+		<input type="radio" class="radio" name="sex" id="male" value="male">
+   <label for="male">Male</label>
+  <input type="radio" class="radio" name="sex" id="female" value="female" checked>
+  <label for="female">Female</label>
+		-->
 	</div>
 <!--<footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
@@ -159,12 +164,45 @@
     <script src="dist/js/bootstrap.min.js"></script>
 	<script>
 		printArchitecture = function(container, service) {
-			var backend='<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title">Backend: </p></div>'; 
+			/*var backend='<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title">Backend: </p></div>'; */
+			$('#backend').append('<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title">Backend: </p></div>');
 			for (var i in services.services) {
 				if (services.services[i].service === service ) {
 				
 				//backend+= '<span class="label label-default">'+ services.services[i].backend +'</span></h3></div>';
-				backend+='<div class="panel-footer"><input type="checkbox" id="backendButton" class="checkbox" checked /><label for=backendButton>' +  services.services[i].backend + '</label></div></div>';
+				
+				
+				
+				/*backend+='<div class="panel-footer" id="backendElements"><input type="checkbox" id="backendButton" class="checkbox" checked /><label for=backendButton>';
+				backend+=services.services[i].backend;
+				backend+='</label></div></div>';
+				
+				<input type="radio" class="radio" name="sex" id="male" value="male">
+				<label for="male">Male</label>
+				
+				*/
+				$('#backend .panel-danger').append('<div class="panel-footer row" id="backendElements"></div>');
+				$('#backendElements').css('margin-left','0').css('margin-right','0');
+				$('#backendElements').append('<div class="col-md-4" id="servidoresBack"><p>Servidores:</p></div>');
+				$('#backendElements').append('<div class="col-md-5" id="bbddBack"><p>Bases de datos:</p></div>');
+				$('#servidoresBack').append('<input type="radio" id="backendButton" name="servidor" class="radio" checked /><label for=backendButton>'
+											+services.services[i].backend + 
+											'</label>');
+				$('#servidoresBack').append('<input type="radio" id="backupdButton" name="servidor" class="radio" /><label for=backupdButton>'
+											+services.services[i].backup + 
+											'</label>');
+				
+				
+				
+				var index=0;							
+				for (var bbdd in services.services[i].bbdd) {							
+				$('#bbddBack').append('<input type="checkbox" id="db'+index+'" class="checkbox ddbb" checked /><label for="db'+index+'">'
+											+ services.services[i].bbdd[bbdd] + 
+											'</label></div></div>');
+							index++;
+				}
+				
+				
 				var frontends='<div class="panel panel-success"><div class="panel-heading"><p class="panel-title">Frontales: </p></div>';
 				frontends+='<div class="panel-footer">';
 				var index=0;
@@ -177,12 +215,13 @@
 			}
 			frontends+="<hr>";
 			$('#frontales').html(frontends);
-			$('#backend').html(backend);
+//			$('#backend').html(backend);
 			
 			var control='<div class="panel panel-info"><div class="panel-heading"><p class="panel-title">Control: </p></div>';
 			control+='<div class="panel-footer">';
 			control+='<button type="button" class="btn btn-xs btn-success">Arrancar</button>';
 			control+='<button type="button" class="btn btn-xs btn-danger">Parar</button>';
+			control+='<button type="button" class="btn btn-xs btn-warning">Mover Backup</button>';
 			control+='</div></div>';
 			$('#control').html(control);
 			controlButtons(service);
@@ -204,38 +243,51 @@
 			switch(accion) {
 				case 'Arrancar':
 					//alert('Se van a arrancar servicios de '+service);
-					startService(service);
+					startService(service, '');
 					break;
 				case 'Parar':
 					//alert('Se van a parar servicios de '+service);
-					stopService(service);
+					stopService(service, '');
+					break;
+				case 'Mover Backup':
+					stopService(service, 'all');
+					moveSVC(service);
+					startService(service, 'all');
 					break;
 			}	
 			//alert(currentValue.text());
 			 });
 		}
 		
-		startService = function(service) {
-			//alert('startService - '+$("#frontales :input").length);
+		startService = function(service, mode) {
+			alert('startService - '+$("#frontales :input").length);
 			var arranque = '<p>Servidores seleccionados para arrancar: ';
 			var frontales = [];
 			var backend = [];
 			//listado elementos a arrancar
-			$("#backend :input").each(function(i) {  
+			$("#backend :input.ddbb").each(function(i) {  
 				//alert($(this).is(':checked'));
 				//alert($(this).next('label').text());
-				if ($(this).is(':checked')) {
-					arranque+=$(this).next('label').text()+'; '
-					backend.push($(this).next('label').text());	
+				if (mode==='all') {
+					backend.push($(this).next('label').text());
+				} else {
+					if ($(this).is(':checked')) {
+						arranque+=$(this).next('label').text()+'; '
+						backend.push($(this).next('label').text());	
+					}
 				}
 				});	
 			
 			$("#frontales :input").each(function(i) {  
 				//alert($(this).is(':checked'));
 				//alert($(this).next('label').text());
-				if ($(this).is(':checked')) {
-					arranque+=$(this).next('label').text()+'; '
-					frontales.push($(this).next('label').text());	
+				if (mode==='all') {
+					frontales.push($(this).next('label').text());
+				} else {
+					if ($(this).is(':checked')) {
+						arranque+=$(this).next('label').text()+'; '
+						frontales.push($(this).next('label').text());	
+					}
 				}
 				});
 				
@@ -267,22 +319,32 @@
 			alertMsg('Servidores arrancados', 'success');
 		}
 		
-		stopService = function(service) {
+		stopService = function(service, mode) {
+			alert('stopService - '+$("#frontales :input").length);
 			var parada = '<p>Servidores seleccionados para parar: ';
 			var frontales = [];
 			var backend = [];
 			//listado elementos a parar
 			$("#frontales :input").each(function(i) {  
-				if (!($(this).is(':checked'))) {
-					parada+=$(this).next('label').text()+'; '	
+				if (mode==='all') {
 					frontales.push($(this).next('label').text());
+				} else {
+					if (!($(this).is(':checked'))) {
+						parada+=$(this).next('label').text()+'; '	
+						frontales.push($(this).next('label').text());
+					}
 				}
 				});
 				
-			$("#backend :input").each(function(i) {  
-				if (!($(this).is(':checked'))) {
-					parada+=$(this).next('label').text()+'; '	
+			$("#backend :input.ddbb").each(function(i) { 
+				if (mode==='all') {
 					backend.push($(this).next('label').text());
+				} else {
+				 
+					if (!($(this).is(':checked'))) {
+						parada+=$(this).next('label').text()+'; '	
+						backend.push($(this).next('label').text());
+					}
 				}
 				});	
 				
@@ -311,6 +373,16 @@
 			}
 			
 			alertMsg('Servidores parados', 'warning');
+			
+		}
+		
+		moveSVC = function(service) {
+			alert('Movimiendo servidores');
+			if ($('#backendButton').is(':checked')) {
+				$('#backupdButton').prop('checked', true);
+			} else {
+				$('#backendButton').prop('checked', true);
+			}
 			
 		}
 		
