@@ -16,6 +16,10 @@ body {
   left: 0;
 } 
 
+.logContent{
+	font-size: 11px;
+}
+
 input[type="checkbox"].checkbox {
 			display: none;
 		}
@@ -85,3 +89,5 @@ input[type="checkbox"].checkbox {
 	top:50%;
 	width: 600px;
 }
+
+
