@@ -39,3 +39,7 @@ ssh -T git@github.com
 
 #clone repo
 $ git clone https://github.com/juliansotoca/svcmgt.git
+
+#update repo
+$ git pull origin
+
