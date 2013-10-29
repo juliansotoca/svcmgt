@@ -1,0 +1,156 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+	 <script src="js/jquery.js"></script>
+ <script>
+	 
+	//stopService(service, 'all');
+	//moveSVC(service);
+	//startService(service, 'all');
+	 
+    function reiniciaTodo(para, mueve, arranca, service){
+    //ejecucion sincrona de una parada
+    para(service);
+ 
+    //sigo... algo aca
+    setTimeout(function(f){
+    mueve('mueve');
+	}, 10000);
+ 
+    //sigo ... y termino
+    setTimeout(function(f){
+    arranca('arranca');
+	}, 20000);
+}
+ 
+function paso1(quePaso){
+     console.log(quePaso);
+     //console.log('kkkk');
+     //$('#div1').html('<p>kkkkkkkk</p>');
+     //console.log('kkkk11111');
+     var timeout = 0;
+     var c = 0;
+	for(var i=0; i<=8; i++) {
+		console.log(i);
+	//timeout += 1000;
+	$('#div1').append('<p>'+i+'</p>');
+	//setTimeout(function(f){
+	//	$('#div1').append('<p>'+c+'</p>')		
+	//	c++;
+	//	},timeout);
+	}
+	$('body').append('<p>paso1</p>');
+}
+ 
+function paso2(quePaso){
+     console.log(quePaso);
+     var timeout = 0;
+     var c = 0;
+     for(var i=0; i<=5; i++) {
+		console.log(i);
+		timeout += 1000;
+		$('#div2').append('<p>'+i+'</p>')		
+		//setTimeout(function(f){
+		//$('#div2').append('<p>'+c+'</p>')		
+		//c++;
+		//},timeout);
+		
+	}
+}
+ 
+function termino(queHizo){
+     console.log(queHizo);
+     for(var i=0; i<=1; i++) {
+		console.log(i);
+	}
+}
+ 
+ 
+  $(document).ready(function() {
+ 
+   //$('#div1').append('<p>body</p>');
+   reiniciaTodo(stopService, moveSVC, startService, 'blabla');
+  
+ });
+
+
+/*
+moveNode = function(paso1, paso2, paso3 ){
+	var service="kkkk";
+	stopService(service);
+	moveSVC(service);
+	startService(service);
+}*/
+
+stopService = function(service) {
+	var timeout = 0
+	for(var i=0; i<=1; i++) {
+	timeout += 1000;
+	$('#div1').append('<p>StopService'+service+'</p>');
+	//setTimeout(function(f){
+	//	$('#10sec').append('<p>'+i+'</p>')		
+	//	},timeout);
+	}
+}
+
+
+moveSVC = function(service) {
+	var timeout = 0
+	for(var j=0; j<=1; j++) {
+	timeout += 1000;
+	$('#div1').append('<p>moveService</p>');
+	//setTimeout(function(f){
+	//	$('#5sec').append('<p>'+j+'</p>')		
+	//	},timeout);
+	}
+}
+
+startService = function(service) {
+	var timeout = 0
+	for(var k=0; k<=1; k++) {
+	timeout += 1000;
+	$('#div1').append('<p>startService</p>');
+	//setTimeout(function(f){
+	//	$('#1sec').append('<p>'+k+'</p>')		
+	//	},timeout);
+	}
+}
+
+/*
+
+moveNode(stopService, moveSVC, startService);
+
+*/
+  
+  
+  
+  
+    </script>
+
+<style type="text/css">
+div.div1{
+	border: 1px solid rgba(86,61,124,.2);
+	background-color: rgba(86,61,124,.15);
+}
+
+div.div2{
+	border: 1px solid rgba(86,61,124,.2);
+	background-color: rgba(86,3,124,.15);
+}
+
+div.div3{
+	border: 1px solid rgba(86,61,124,.2);
+	background-color: rgba(86,61,3,.15);
+}
+
+</style>
+
+ </head>
+ <body>
+ <p>Hello, world!</p>
+ <div id="div1" class="div1"><p></p></div>
+ <div id="div2" class="div2"><p></p></div>
+ <div id="div3" class="div3"><p></p></div>
+ </body>
+ </html>
+ 

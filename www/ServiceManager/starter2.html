@@ -115,6 +115,9 @@
 		  <div class="col-md-9 thinborder" id="orchestrator"></div>
 		  <div class="col-md-3 thinborder orchestratorLog" id="orchestratorLog"></div>
       </div>
+      <div id="fullLog" class="fullLog orchestratorLog container row">
+		  <div class="col-md-11" id="fullLogCont"></div>
+      </div>
     </div><!-- /.container -->
     <hr class="featurette-divider">
     
@@ -195,9 +198,10 @@
 				
 				
 				var index=0;							
-				for (var bbdd in services.services[i].bbdd) {							
-				$('#bbddBack').append('<input type="checkbox" id="db'+index+'" class="checkbox ddbb" checked /><label for="db'+index+'">'
-											+ services.services[i].bbdd[bbdd] + 
+				for (var bbdd in services.services[i].bbdd) {
+					var bbdd=services.services[i].bbdd[bbdd];							
+					$('#bbddBack').append('<input type="checkbox" id="'+bbdd+'" class="checkbox ddbb" checked /><label for="'+bbdd+'">'
+											+ bbdd + 
 											'</label></div></div>');
 							index++;
 				}
@@ -207,7 +211,8 @@
 				frontends+='<div class="panel-footer">';
 				var index=0;
 				for (var fend in services.services[i].frontedns) {
-					frontends+='<input type="checkbox" id="'+index+'" class="checkbox" checked /><label for='+index+'>' + services.services[i].frontedns[fend] + '</label>';
+					var frontend=services.services[i].frontedns[fend];
+					frontends+='<input type="checkbox" id="'+frontend+'" class="checkbox" checked /><label for='+frontend+'>' + frontend + '</label>';
 					index++;
 					}
 				frontends+="</div></div>";
@@ -222,6 +227,7 @@
 			control+='<button type="button" class="btn btn-xs btn-success">Arrancar</button>';
 			control+='<button type="button" class="btn btn-xs btn-danger">Parar</button>';
 			control+='<button type="button" class="btn btn-xs btn-warning">Mover Backup</button>';
+			control+='<button type="button" class="btn btn-xs btn-info">Full log</button>';
 			control+='</div></div>';
 			$('#control').html(control);
 			controlButtons(service);
@@ -250,18 +256,27 @@
 					stopService(service, '');
 					break;
 				case 'Mover Backup':
-					stopService(service, 'all');
-					moveSVC(service);
-					startService(service, 'all');
+					moveNode(stopService, moveSVC, startService, service );
+					//stopService(service, 'all');
+					//moveSVC(service);
+					//startService(service, 'all');
 					break;
+				case 'Full log':
+					if ($('#fullLog').is(':visible')) {
+						$('#fullLog').fadeOut('slow');
+					} else {
+						$('#fullLog').fadeIn('slow');
+					}
 			}	
 			//alert(currentValue.text());
 			 });
 		}
 		
 		startService = function(service, mode) {
-			alert('startService - '+$("#frontales :input").length);
-			var arranque = '<p>Servidores seleccionados para arrancar: ';
+			//alert('startService - '+$("#frontales :input").length);
+			var currentdate = new Date(); 
+			var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
+			var arranque = '<p><b>['+time+']Servidores seleccionados para arrancar:</b> ';
 			var frontales = [];
 			var backend = [];
 			//listado elementos a arrancar
@@ -270,9 +285,10 @@
 				//alert($(this).next('label').text());
 				if (mode==='all') {
 					backend.push($(this).next('label').text());
+					arranque+=$(this).next('label').text()+'; ';
 				} else {
 					if ($(this).is(':checked')) {
-						arranque+=$(this).next('label').text()+'; '
+						arranque+=$(this).next('label').text()+'; ';
 						backend.push($(this).next('label').text());	
 					}
 				}
@@ -283,9 +299,10 @@
 				//alert($(this).next('label').text());
 				if (mode==='all') {
 					frontales.push($(this).next('label').text());
+					arranque+=$(this).next('label').text()+'; ';
 				} else {
 					if ($(this).is(':checked')) {
-						arranque+=$(this).next('label').text()+'; '
+						arranque+=$(this).next('label').text()+'; ';
 						frontales.push($(this).next('label').text());	
 					}
 				}
@@ -293,24 +310,30 @@
 				
 			arranque+='</p>';
 			$('#logContent').html(arranque);
+			$('#fullLogCont').append(arranque);
 			//Ejecucion arranques 1º ddbb 2º frontales
-			var timeout = 1000;
+			var timeout = 500;
 			for(var i=0; i<backend.length; i++) {
-				timeout += 1000;
+				timeout += 500;
 				setTimeout(function(f){
 					var currentdate = new Date(); 
 					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
-					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>')		
+					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');		
+					$('#fullLogCont').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');
+					$("#"+f).prop('checked',true);
 				},timeout, backend[i]);
 				resizeOrchestrator();
 			}
 			
 			for(var i=0; i<frontales.length; i++) {
-				timeout += 1000;
+				timeout += 500;
 				setTimeout(function(f){
 					var currentdate = new Date(); 
 					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
-					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>')		
+					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');		
+					$('#fullLogCont').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');
+					$("#"+f).prop('checked',true);
+					//$('#test').append('<p>arranque frontal'+f+'</p>');
 				},timeout, frontales[i]);
 				resizeOrchestrator();
 			}
@@ -320,17 +343,21 @@
 		}
 		
 		stopService = function(service, mode) {
-			alert('stopService - '+$("#frontales :input").length);
-			var parada = '<p>Servidores seleccionados para parar: ';
+			//alert('stopService - '+$("#frontales :input").length);
+			var currentdate = new Date(); 
+			var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
+			var parada = '<p><b>['+time+'] Servidores seleccionados para parar: </b>';
 			var frontales = [];
 			var backend = [];
+			
 			//listado elementos a parar
 			$("#frontales :input").each(function(i) {  
 				if (mode==='all') {
 					frontales.push($(this).next('label').text());
+					parada+=$(this).next('label').text()+';';	
 				} else {
 					if (!($(this).is(':checked'))) {
-						parada+=$(this).next('label').text()+'; '	
+						parada+=$(this).next('label').text()+'; ';
 						frontales.push($(this).next('label').text());
 					}
 				}
@@ -339,10 +366,11 @@
 			$("#backend :input.ddbb").each(function(i) { 
 				if (mode==='all') {
 					backend.push($(this).next('label').text());
-				} else {
+					parada+=$(this).next('label').text()+';';
+					} else {
 				 
 					if (!($(this).is(':checked'))) {
-						parada+=$(this).next('label').text()+'; '	
+						parada+=$(this).next('label').text()+'; ';
 						backend.push($(this).next('label').text());
 					}
 				}
@@ -350,24 +378,31 @@
 				
 			parada+='</p>';
 			$('#logContent').html(parada);
+			$('#fullLogCont').append(parada);
 			//Ejecucion paradas 1º frontales 2º ddbb
-			var timeout = 1000;
+			var timeout = 500;
 			for(var i=0; i<frontales.length; i++) {
-				timeout += 1000;
+				timeout += 500;
 				setTimeout(function(f){
 					var currentdate = new Date(); 
 					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
-					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>')		
+					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');		
+					$('#fullLogCont').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');
+					//$("#"+f).attr( 'checked', false );
+					$("#"+f).removeAttr('checked')
 				},timeout, frontales[i]);
 				resizeOrchestrator();
 			}
 			
 			for(var i=0; i<backend.length; i++) {
-				timeout += 1000;
+				timeout += 500;
 				setTimeout(function(f){
 					var currentdate = new Date(); 
 					var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
-					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>')		
+					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');	
+					$('#fullLogCont').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');	
+					//$("#"+f).attr( 'checked', false );
+					$("#"+f).removeAttr('checked')
 				},timeout, backend[i]);
 				resizeOrchestrator();
 			}
@@ -377,13 +412,20 @@
 		}
 		
 		moveSVC = function(service) {
-			alert('Movimiendo servidores');
+			//alert('Movimiendo servidores');
 			if ($('#backendButton').is(':checked')) {
 				$('#backupdButton').prop('checked', true);
+				servidorB=$('#backupdButton').next('label').text()
+				servidorA=$('#backendButton').next('label').text()
 			} else {
 				$('#backendButton').prop('checked', true);
+				servidorB=$('#backendButton').next('label').text()
+				servidorA=$('#backupdButton').next('label').text()
 			}
-			
+			var currentdate = new Date(); 
+			var time = currentdate.getHours() + ":"+ currentdate.getMinutes() + ":"+ currentdate.getSeconds();
+			$('#logContent').html('<p>['+time+'] Moviendo servicios de backend desde servidor <b>'+servidorA+'</b> a servidor <b>'+servidorB+'</b></p>');
+			$('#fullLogCont').append('<p>['+time+'] Moviendo servicios de backend desde servidor <b>'+servidorA+'</b> a servidor <b>'+servidorB+'</b></p>');
 		}
 		
 		alertMsg = function(msg,level) {
@@ -407,6 +449,21 @@
 				}).get());
 			boxes.height(maxHeight);
 		}
+		
+		moveNode = function(para, mueve, arranca, service){
+			//ejecucion sincrona de una parada
+			para(service, 'all');
+	
+			//movimiento de servicios
+			setTimeout(function(f){
+				mueve(service, 'all');
+			}, 2000);
+	
+			//arranque de todo
+			setTimeout(function(f){
+				arranca(service, 'all');
+			}, 4000);
+			}
 		
 		$(window).resize();
   	</script>
