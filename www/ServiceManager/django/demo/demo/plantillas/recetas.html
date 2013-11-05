@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang=’es’>
+<head>
+<title>Lista de bebidas de ejemplo</title>
+<meta charset=’utf-8’>
+</head>
+<body>
+
+<header>
+	<nav>
+		<ul>
+			<li><a href='/'>Inicio</a></li>
+			<li><a href='/usuarios'>Usuarios registrados</a></li>
+			<li><a href='/recetas'>Recetas</a></li>
+			<li><a href='/sobre'>sobre</a></li>
+		</ul>
+	</nav>
+</header>
+<section>
+	<h1>Nuestras recetas</h1>
+	
+	<ul>
+		{% for dato in datos %}
+		<li>
+			<a href='/receta/{{dato.id}}'>{{dato.titulo}}</a>
+			<img src='{{MEDIA_ROOT}}{{dato.imagen}}'>
+		</li>
+		{% endfor %}
+	</ul>
+</section>
+
+</body>
+</html>

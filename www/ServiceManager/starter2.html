@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="assets/ico/favicon.png">
@@ -12,7 +14,8 @@
 	<script src="js/jquery.js"></script>
     <!-- Custom styles for this template -->
     <!-- Bootstrap core CSS -->
-    <link href="dist/css/bootstrap.css" rel="stylesheet">
+    <!--<link charset="utf-8" type="text/css" href="LigatureSymbols/style.css" rel="alternate stylesheet">-->
+    <link href="dist/css/bootstrap.css" title="bootstrap css" rel="stylesheet">
     <link href="starter-template.css" rel="stylesheet">
 	  
 
@@ -133,6 +136,18 @@
 
 
 <div class="container" id="test">
+<!--	<span class="lsf symbol">pc</span>
+<span class="lsf symbol">keyboard</span>
+<span class="lsf symbol">web</span>
+<span class="lsf symbol">dashboard</span>
+<span class="lsf symbol">ban</span>
+<span class="lsf symbol">eraser</span>
+<span class="lsf symbol">setting</span>
+<span class="lsf symbol">server</span>
+<span class="lsf symbol">sitemap</span>
+<span class="lsf symbol">memo</span>
+<span class="lsf symbol">terminal</span>-->
+	
 	<!--	<input type="checkbox" id="1" class="checkbox" />
 		<label for="1">SMS</label>
 		<input type="checkbox" id="2" class="checkbox" checked />
@@ -168,7 +183,7 @@
 	<script>
 		printArchitecture = function(container, service) {
 			/*var backend='<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title">Backend: </p></div>'; */
-			$('#backend').append('<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title">Backend: </p></div>');
+			$('#backend').append('<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">dashboard</span>Backend: </p></div>');
 			for (var i in services.services) {
 				if (services.services[i].service === service ) {
 				
@@ -186,8 +201,8 @@
 				*/
 				$('#backend .panel-danger').append('<div class="panel-footer row" id="backendElements"></div>');
 				$('#backendElements').css('margin-left','0').css('margin-right','0');
-				$('#backendElements').append('<div class="col-md-4" id="servidoresBack"><p>Servidores:</p></div>');
-				$('#backendElements').append('<div class="col-md-5" id="bbddBack"><p>Bases de datos:</p></div>');
+				$('#backendElements').append('<div class="col-md-6" id="servidoresBack"><p><span class="lsf symbol">server</span>Servidores:</p></div>');
+				$('#backendElements').append('<div class="col-md-6" id="bbddBack"><p><span class="lsf symbol">building</span>Bases de datos:</p></div>');
 				$('#servidoresBack').append('<input type="radio" id="backendButton" name="servidor" class="radio" checked /><label for=backendButton>'
 											+services.services[i].backend + 
 											'</label>');
@@ -205,34 +220,69 @@
 											'</label></div></div>');
 							index++;
 				}
+				$('#bbddBack').append('<span class="ctlchekbox"><input type="checkbox" id="MarcaTodosBend" class="checkbox" checked /><label for="MarcaTodosBend">Todos</label></span>');
 				
 				
-				var frontends='<div class="panel panel-success"><div class="panel-heading"><p class="panel-title">Frontales: </p></div>';
+				var frontends='<div class="panel panel-success"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">web</span>Frontales: </p></div>';
 				frontends+='<div class="panel-footer">';
 				var index=0;
 				for (var fend in services.services[i].frontedns) {
 					var frontend=services.services[i].frontedns[fend];
-					frontends+='<input type="checkbox" id="'+frontend+'" class="checkbox" checked /><label for='+frontend+'>' + frontend + '</label>';
+					frontends+='<input type="checkbox" id="'+frontend+'" class="checkbox fend" checked /><label for='+frontend+'>' + frontend + '</label>';
 					index++;
 					}
+				frontends+='<span class="ctlchekbox fend"><input type="checkbox" id="MarcaTodosFend" class="checkbox" checked /><label for="MarcaTodosFend">Todos</label></span>';
 				frontends+="</div></div>";
 			}
 			}
-			frontends+="<hr>";
+			//frontends+="<hr>";
+			
 			$('#frontales').html(frontends);
+			
+			$('#MarcaTodosFend').change(function() {
+				if ($(this).is(":checked")) {
+					//alert('check');
+					$("#frontales :input:not(#MarcaTodosFend)").prop("checked", true);
+				} else {
+					//alert('UNcheck');
+					$("#frontales :input:not(#MarcaTodosFend)").attr("checked", false);
+				}	
+			});
+			
+			$('#MarcaTodosBend').change(function() {
+				if ($(this).is(":checked")) {
+					//alert('check');
+					$("#backend :input.ddbb").prop("checked", true);
+				} else {
+					//alert('UNcheck');
+					$("#backend :input.ddbb").attr("checked", false);
+				}	
+			});
+			
+			$("#frontales :input.fend, #backend :input.ddbb").change(function() {
+				//alert('cambio');
+				if ($('#Disable').is(":checked")){
+					$(this).attr("disabled", true);
+				}
+			});
+			
 //			$('#backend').html(backend);
 			
-			var control='<div class="panel panel-info"><div class="panel-heading"><p class="panel-title">Control: </p></div>';
+			var control='<div class="panel panel-info"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">setting</span>Control: </p></div>';
 			control+='<div class="panel-footer">';
-			control+='<button type="button" class="btn btn-xs btn-success">Arrancar</button>';
-			control+='<button type="button" class="btn btn-xs btn-danger">Parar</button>';
-			control+='<button type="button" class="btn btn-xs btn-warning">Mover Backup</button>';
-			control+='<button type="button" class="btn btn-xs btn-info">Full log</button>';
+			control+='<button type="button" class="btn btn-xs btn-success"><span class="lsf symbol lsf-small">play</span>Arrancar</button>';
+			control+='<button type="button" class="btn btn-xs btn-danger"><span class="lsf symbol lsf-small">stop</span>Parar</button>';
+			control+='<button type="button" class="btn btn-xs btn-warning"><span class="lsf symbol lsf-small">share</span>Mover Backup</button>';
+			control+='<button type="button" class="btn btn-xs btn-info"><span class="lsf symbol lsf-small">comment</span>Full log</button>';
+			control+='<span class="ctlchekbox"><input type="checkbox" id="Disable" class="checkbox"/><label for="Disable"><span class="lsf symbol lsf-small">eraser</span>Deshabilita</label></span>';
+			control+='<span class="ctlchekbox"><button type="button" class="btn btn-xs btn-success"><span class="lsf symbol lsf-small">pen</span>Habilita</button></span>';
+			//control+='<input type="checkbox" id="enable" class="checkbox" checked/><label for="enable">Habilita</label>';
+			//control+='<button type="button" class="btn btn-xs btn-info">Resize Log</button>';
 			control+='</div></div>';
 			$('#control').html(control);
 			controlButtons(service);
 			
-			var logConsole='<div class="panel panel-warning"><div class="panel-heading"><p class="panel-title">Log: </p></div>';
+			var logConsole='<div class="panel panel-warning"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">memo</span>Log: </p></div>';
 			logConsole+='<div class="panel-footer logContent" id="logContent"><p>Inicio variables</p>';
 			logConsole+='</div></div>';
 			$('#logConsole').html(logConsole);
@@ -267,6 +317,14 @@
 					} else {
 						$('#fullLog').fadeIn('slow');
 					}
+					break;
+				case 'Habilita':
+					//alert('Se van a arrancar servicios de '+service);
+					$("#frontales :input.fend, #backend :input.ddbb").attr("disabled", false)
+					break;
+				/*case 'Resize Log':
+					resizeOrchestrator();
+					break;*/
 			}	
 			//alert(currentValue.text());
 			 });
@@ -284,24 +342,28 @@
 				//alert($(this).is(':checked'));
 				//alert($(this).next('label').text());
 				if (mode==='all') {
-					backend.push($(this).next('label').text());
-					arranque+=$(this).next('label').text()+'; ';
+					if (!$(this).is(':disabled')){
+						backend.push($(this).next('label').text());
+						arranque+=$(this).next('label').text()+'; ';
+					}
 				} else {
-					if ($(this).is(':checked')) {
+					if ($(this).is(':checked') && (!$(this).is(':disabled'))) {
 						arranque+=$(this).next('label').text()+'; ';
 						backend.push($(this).next('label').text());	
 					}
 				}
 				});	
 			
-			$("#frontales :input").each(function(i) {  
+			$("#frontales :input:not(#MarcaTodosFend)").each(function(i) {  
 				//alert($(this).is(':checked'));
 				//alert($(this).next('label').text());
 				if (mode==='all') {
-					frontales.push($(this).next('label').text());
-					arranque+=$(this).next('label').text()+'; ';
+					if (!$(this).is(':disabled')){
+						frontales.push($(this).next('label').text());
+						arranque+=$(this).next('label').text()+'; ';
+					}
 				} else {
-					if ($(this).is(':checked')) {
+					if ($(this).is(':checked') && (!$(this).is(':disabled'))) {
 						arranque+=$(this).next('label').text()+'; ';
 						frontales.push($(this).next('label').text());	
 					}
@@ -321,6 +383,7 @@
 					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');		
 					$('#fullLogCont').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');
 					$("#"+f).prop('checked',true);
+					resizeOrchestrator();
 				},timeout, backend[i]);
 				resizeOrchestrator();
 			}
@@ -333,6 +396,7 @@
 					$('#logContent').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');		
 					$('#fullLogCont').append('<p>['+time+'] Arrancando servidor: <b>'+f+'</b></p>');
 					$("#"+f).prop('checked',true);
+					resizeOrchestrator();
 					//$('#test').append('<p>arranque frontal'+f+'</p>');
 				},timeout, frontales[i]);
 				resizeOrchestrator();
@@ -351,12 +415,14 @@
 			var backend = [];
 			
 			//listado elementos a parar
-			$("#frontales :input").each(function(i) {  
+			$("#frontales :input:not(#MarcaTodosFend)").each(function(i) {  
 				if (mode==='all') {
-					frontales.push($(this).next('label').text());
-					parada+=$(this).next('label').text()+';';	
+					if (!$(this).is(':disabled')){
+						frontales.push($(this).next('label').text());
+						parada+=$(this).next('label').text()+';';	
+					}
 				} else {
-					if (!($(this).is(':checked'))) {
+					if (!($(this).is(':checked')) && (!$(this).is(':disabled'))) {
 						parada+=$(this).next('label').text()+'; ';
 						frontales.push($(this).next('label').text());
 					}
@@ -365,11 +431,13 @@
 				
 			$("#backend :input.ddbb").each(function(i) { 
 				if (mode==='all') {
-					backend.push($(this).next('label').text());
-					parada+=$(this).next('label').text()+';';
+					if (!$(this).is(':disabled')){
+						backend.push($(this).next('label').text());
+						parada+=$(this).next('label').text()+';';
+					}
 					} else {
 				 
-					if (!($(this).is(':checked'))) {
+					if (!($(this).is(':checked')) && (!$(this).is(':disabled'))) {
 						parada+=$(this).next('label').text()+'; ';
 						backend.push($(this).next('label').text());
 					}
@@ -389,7 +457,8 @@
 					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');		
 					$('#fullLogCont').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');
 					//$("#"+f).attr( 'checked', false );
-					$("#"+f).removeAttr('checked')
+					$("#"+f).removeAttr('checked');
+					resizeOrchestrator();
 				},timeout, frontales[i]);
 				resizeOrchestrator();
 			}
@@ -402,7 +471,8 @@
 					$('#logContent').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');	
 					$('#fullLogCont').append('<p>['+time+'] Parando servidor:  <b>'+f+'</b></p>');	
 					//$("#"+f).attr( 'checked', false );
-					$("#"+f).removeAttr('checked')
+					$("#"+f).removeAttr('checked');
+					resizeOrchestrator();
 				},timeout, backend[i]);
 				resizeOrchestrator();
 			}
@@ -443,11 +513,18 @@
 		resizeOrchestrator = function() {
 			//permite tener las columnas del div orchestrator con la misma altura
 			boxes = $('.thinborder');
+			boxes.css('height', 'auto');
 			maxHeight = Math.max.apply(
 				Math, boxes.map(function() {
 					return $(this).height();
 				}).get());
-			boxes.height(maxHeight);
+			if ( $('#logContent').height() > maxHeight ) {
+				//boxes.height($('#logContent').height()+40);
+				$('#logConsole').css('height', 'auto');
+				boxes.height($('#logConsole').height());
+			} else {
+				boxes.height(maxHeight);
+			}
 		}
 		
 		moveNode = function(para, mueve, arranca, service){
