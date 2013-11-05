@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="es">
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+  <!--  <link href="dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="starter-template.css" rel="stylesheet">-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    
+	<style type="text/css">
+		.panel {
+		position: relative;
+		display: flex;
+		}
+     .columna{
+	width:200px;
+	height:200px;
+	float:left;
+	border: 2px solid #000000;
+	background-color: green;
+	-webkit-border-radius: 10px;
+         -ms-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+	cursor:move;
+	}
+	.columna.over {
+		border: 2px solid #FF0000;
+	}
+	.panel2{
+		background-color: #C0C0C0;
+		width:auto;
+	height:300px;
+	}
+	</style>
+</head>
+<body>
+
+<div id="panel" class="panel" >
+	<div class="columna" draggable="true"><p>Div1</p></div>
+	<div class="columna" draggable="true"><p>Div2</p></div>
+	<div class="columna" draggable="true"><p>Div3</p></div>
+	<div class="columna" draggable="true"><p>Div4</p></div>
+</div>
+   
+<div id="panel2" class="panel panel2 disabled" draggable="true">
+
+
+</div> 
+   <script type="text/javascript">
+    var dragSrcEl = null;
+	var cols = document.querySelectorAll('#panel .columna');
+	
+    //guardamos el contenido que queremos cambiar para la transferencia al dejar de arrastrar
+function handleDragStart(e) {
+  dragSrcEl = this;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', this.innerHTML);
+}
+
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+
+  e.dataTransfer.dropEffect = 'move';  //efecto al mover
+
+  return false;
+}
+
+function handleDragEnter(e) {
+  this.classList.add('over');//agregamos borde rojo en el estilo css
+}
+
+function handleDragLeave(e) {
+  this.classList.remove('over'); //eliminamos borde rojo en el estilo css
+}
+
+function handleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation(); //evitamos abrir contenido en otra pagina al soltar
+  }
+	//hacemos el intercambio de contenido html de el elemento origne y destino 
+	if (dragSrcEl != this) {
+		dragSrcEl.innerHTML = this.innerHTML;
+		this.innerHTML = e.dataTransfer.getData('text/html');
+		this.classList.remove('over');
+	}
+
+  return false;
+}
+
+function handleDragEnd(e) {
+  [].forEach.call(cols, function (col) {
+    col.classList.remove('over');//eliminamos el borde rojo de todas las columnas
+  });
+}
+
+//agregamos todos los eventos anteriores a cada columna mediante un ciclo
+[].forEach.call(cols, function(col) {
+   col.addEventListener('dragstart', handleDragStart, false);
+  col.addEventListener('dragenter', handleDragEnter, false);
+  col.addEventListener('dragover', handleDragOver, false);
+  col.addEventListener('dragleave', handleDragLeave, false);
+  col.addEventListener('drop', handleDrop, false);
+  col.addEventListener('dragend', handleDragEnd, false);
+});
+    </script>
+
+    
+  </body>
+</html>
+
