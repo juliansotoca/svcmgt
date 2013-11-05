@@ -270,10 +270,10 @@
 			
 			var control='<div class="panel panel-info"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">setting</span>Control: </p></div>';
 			control+='<div class="panel-footer">';
-			control+='<button type="button" class="btn btn-xs btn-success"><span class="lsf symbol lsf-small">play</span>Arrancar</button>';
-			control+='<button type="button" class="btn btn-xs btn-danger"><span class="lsf symbol lsf-small">stop</span>Parar</button>';
-			control+='<button type="button" class="btn btn-xs btn-warning"><span class="lsf symbol lsf-small">share</span>Mover Backup</button>';
-			control+='<button type="button" class="btn btn-xs btn-info"><span class="lsf symbol lsf-small">comment</span>Full log</button>';
+			control+='<button type="button" class="btn btn-xs btn-success"><span class="lsf symbol lsf-small">play</span><span class="accion">Arrancar</span></button>';
+			control+='<button type="button" class="btn btn-xs btn-danger"><span class="lsf symbol lsf-small">stop</span><span class="accion">Parar</span></button>';
+			control+='<button type="button" class="btn btn-xs btn-warning"><span class="lsf symbol lsf-small">share</span><span class="accion">Mover Backup</span></button>';
+			control+='<button type="button" class="btn btn-xs btn-info"><span class="lsf symbol lsf-small">comment</span><span class="accion">Full log</span></button>';
 			control+='<span class="ctlchekbox"><input type="checkbox" id="Disable" class="checkbox"/><label for="Disable"><span class="lsf symbol lsf-small">eraser</span>Deshabilita</label></span>';
 			control+='<span class="ctlchekbox"><button type="button" class="btn btn-xs btn-success"><span class="lsf symbol lsf-small">pen</span>Habilita</button></span>';
 			//control+='<input type="checkbox" id="enable" class="checkbox" checked/><label for="enable">Habilita</label>';
@@ -294,11 +294,12 @@
 		controlButtons = function(service) {
 			$('button').bind('click', function() { 
 			//alert('Boton pulsado');
-			var currentValue = $(this);
-			var accion = currentValue.text();
+			var currentValue = $(this).find('.accion');
+			var accion = currentValue.html();
+			//alert(accion);
 			switch(accion) {
 				case 'Arrancar':
-					//alert('Se van a arrancar servicios de '+service);
+					alert('Se van a arrancar servicios de '+service);
 					startService(service, '');
 					break;
 				case 'Parar':
