@@ -25,20 +25,9 @@ var services={"services":[
 			],
             "other": "N/A"
         },
-        {
-			"service": "H24 AEA",
-            "backend":"Sandra",
-            "backup":"Cristina",
-            "frontedns":["intraea01", "intraaea02", "frontaea01", "frontaea02", "intragforce01"],
-            "bbdd": [
-				"orcl",
-				"gforce",
-				"abs2020",
-				"sitaslot"
-			],
-            "other": "N/A"
-        }
+
 ]}
 //var services = '[{"service":"service1","ID":"1"}, {"service":"service2","ID":"2"}]';
 var jsonp = '[{"Language":"jQuery","ID":"1"}, {"Language":"C#","ID":"2"}]';
 var lang = '';
+

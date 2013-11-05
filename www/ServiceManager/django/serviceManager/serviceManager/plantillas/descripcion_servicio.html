@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang=’es’>
+<head>
+<title>Lista de servicios</title>
+<meta charset=’utf-8’>
+</head>
+<body>
+<h1>Servicio: {{servicio}}</h1>
+<h2>Aplicaciones</h2>
+{% for elemento in aplicaciones %}
+<ul>
+<li><strong>{{elemento.aplicacion}}</strong></li>
+<li>{{elemento.idaplicacion}}</li>
+</ul>
+{% endfor %}
+
+<h2>Frontends</h2>
+{% for elemento in frontends %}
+<ul>
+<li><strong>{{elemento.frontal}}</strong></li>
+<li>{{elemento.idfrontal}}</li>
+</ul>
+{% endfor %}
+
+<h2>Backends</h2>
+{% for elemento in backends %}
+<ul>
+<li><strong>{{elemento.backend}}</strong></li>
+<li>{{elemento.idbackend}}</li>
+</ul>
+{% endfor %}
+
+<h2>Base de datos</h2>
+{% for elemento in baseDatos %}
+<ul>
+<li><strong>{{elemento.bbdd}}</strong></li>
+<li>{{elemento.idbbdd}}</li>
+</ul>
+{% endfor %}
+
+
+
+
+</body>
+</html>

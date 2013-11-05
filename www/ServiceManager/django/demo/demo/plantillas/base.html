@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang=’es’>
 <head>
-<title>Lista de bebidas de ejemplo</title>
+<title>Recetario para MDW - {% block titulo %}{% endblock %}</title>
 <meta charset=’utf-8’>
+<style>
+	{% block style_css %}{% endblock %}
+</style>
 </head>
 <body>
 
 <header>
+	{% block encabezado %}{% endblock %}
 	<nav>
 		<ul>
 			<li><a href='/'>Inicio</a></li>
@@ -15,19 +19,13 @@
 			<li><a href='/sobre'>sobre</a></li>
 		</ul>
 	</nav>
+	<hr>
 </header>
-<section>
-	<h1>Nuestras recetas</h1>
-	
-	<ul>
-		{% for dato in datos %}
-		<li>
-			<a href='/receta/{{dato.id}}'>{{dato.titulo}}</a>
-			<img src='{{MEDIA_URL}}{{dato.imagen}}'>
-		</li>
-		{% endfor %}
-	</ul>
+<section class='contenido'>
+	{% block contenido %}{% endblock %}
 </section>
-
+<footer>
+	<p>Proyecto de ejemplo para el curso Django de MDW &copy;2013</p>
+</footer>
 </body>
 </html>

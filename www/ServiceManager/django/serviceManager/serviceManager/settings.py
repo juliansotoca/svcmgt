@@ -1,15 +1,13 @@
-# Django settings for demo project.
+# Django settings for serviceManager project.
 #encoding:utf-8
 # Identificando la ruta del proyecto
 import os
 RUTA_PROYECTO = os.path.dirname(os.path.realpath(__file__))
-
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Julian', 'julian.sotoca@globalia-sistemas.com'),
+    # ('Julián García-Sotoca Pascual', 'juliansotoca@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -17,7 +15,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'demo.db',                      # Or path to database file if using sqlite3.
+        'NAME': 'svcmgt.db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -38,7 +36,7 @@ TIME_ZONE = 'Europe/Madrid'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'en-es'
 
 SITE_ID = 1
 
@@ -55,7 +53,6 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-#MEDIA_ROOT = ''
 MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'carga')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -89,7 +86,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'v5nz&ea2s!o28ptgai-crg=vx3*o(2e2x#fl28$tiqogj=8w_r'
+SECRET_KEY = 'y@@muzm=^=w*n(c$7-qipdrru$spd5kha9)cs)m^8!0!-w#9!w'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -108,16 +105,16 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'demo.urls'
+ROOT_URLCONF = 'serviceManager.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'demo.wsgi.application'
+WSGI_APPLICATION = 'serviceManager.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(RUTA_PROYECTO, 'plantillas'),
+    os.path.join(RUTA_PROYECTO,'plantillas'),
 )
 
 INSTALLED_APPS = (
@@ -127,11 +124,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'principal',
+    'svcmgt'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -164,6 +159,3 @@ LOGGING = {
         },
     }
 }
-
-
-
