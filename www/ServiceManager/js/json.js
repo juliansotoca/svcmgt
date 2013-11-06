@@ -18,14 +18,13 @@ var services={"services":[
 			"service": "service2",
             "backend":"serverW",
             "backup":"serverZ",
-            "frontedns":["fend4", "fend3"],
+            "frontedns":["fend4", "fend5"],
             "bbdd": [
 				"bbdd3",
 				"bbdd4"
 			],
             "other": "N/A"
-        },
-
+        }
 ]}
 //var services = '[{"service":"service1","ID":"1"}, {"service":"service2","ID":"2"}]';
 var jsonp = '[{"Language":"jQuery","ID":"1"}, {"Language":"C#","ID":"2"}]';

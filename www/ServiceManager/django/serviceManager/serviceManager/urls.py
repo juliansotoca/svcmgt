@@ -1,5 +1,6 @@
 #encoding:utf-8
 from django.conf.urls import patterns, include, url
+#from svcmgt.views import desc_servicio, current_datetime
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -17,4 +18,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$','svcmgt.views.lista_servicios'),
     url(r'^servicio/(?P<id_servicio>\d+)$','svcmgt.views.desc_servicio'),
+    url(r'^time/$','svcmgt.views.current_datetime'),
+    url(r'^tree/$','svcmgt.views.get_full_tree'),
+    url(r'^json/$','svcmgt.views.get_json'),
 )

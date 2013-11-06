@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang=’es’>
+<head>
+<title>Lista de servicios</title>
+<meta charset=’utf-8’>
+</head>
+<body>
+{% for svc in servicio %}
+	
+	<h1>Servicio: {{svc.servicio}}</h1>
+	<h3>Aplicaciones</h3>
+	<ul>
+	{% for app in aplicaciones %}
+		<!--<li>{{app.servicio}}</li>-->
+		{% ifequal app.servicio svc %} 
+			<li>{{app.aplicacion}}</li>
+		{% endifequal %} 
+	{% endfor %}
+	</ul>
+	
+	<h3>Frontales</h3>
+	<ul>
+	{% for elemento in frontends %}
+		{% ifequal elemento.servicio svc %} 
+			<li>{{elemento.frontal}}</li>
+		{% endifequal %} 
+	{% endfor %}
+	</ul>
+	
+	<h3>Backends</h3>
+	<ul>
+	{% for elemento in backends %}
+		{% ifequal elemento.servicio svc %} 
+			<li>{{elemento.backend}}</li>
+			<ul>
+			{% for ddbb in baseDatos %}
+				{% ifequal  ddbb.backendProd elemento %} 
+					<li>{{ddbb.bbdd}}</li>
+				{% endifequal %} 
+			{% endfor %}
+			</ul>
+		{% endifequal %} 
+	{% endfor %}
+	</ul>
+	
+	
+{% endfor %}
+</body>
+</html>
