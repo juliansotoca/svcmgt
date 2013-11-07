@@ -44,6 +44,7 @@ def get_json(request):
 	bbdd = baseDatos.objects.all()
 	data={}
 	fullJson=[]
+	output={}
 	for s in svc:
 		data['service'] = s.servicio
 		_f=[]
@@ -67,6 +68,7 @@ def get_json(request):
 		data['backends'] = _b
 		data['bbdd'] = _d
 		fullJson.append(data.copy())
-		
-	html="<html><body>%s</body></html>" % json.dumps(fullJson, sort_keys=True, indent=2)
+	
+	output['services']=	fullJson
+	html="<html><body>%s</body></html>" % json.dumps(output, sort_keys=True, indent=2)
 	return HttpResponse(html)

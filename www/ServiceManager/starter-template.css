@@ -4,8 +4,9 @@ body {
   padding-top: 50px;
 }
 .starter-template {
-  padding: 40px 15px;
+  padding: 10px 10px;
   text-align: center;
+  margin: 10px;
 }
 .footer {
   position: fixed;
@@ -18,6 +19,25 @@ body {
   left: 0;
 } 
 
+.thin-divider {
+  border: 1px;
+  color: #428BCA;
+  padding: 10px 10px;
+  margin: 5px;
+}
+
+.overflow {
+  overflow: auto;
+  width: auto;
+  padding: 1px;
+  overflow: hidden; 
+}
+.overflow span{
+	margin: 1px;
+	padding: 1px;
+	display: inline-block;
+	float: auto;
+}
 
 .logContent{
 	font-size: 11px;
