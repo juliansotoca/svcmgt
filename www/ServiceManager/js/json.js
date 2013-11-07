@@ -24,7 +24,28 @@ var services={"services":[
 				"bbdd4"
 			],
             "other": "N/A"
-        }
+        },
+        {
+			"service": "Web B2B",
+            "backend":"JULIET",
+            "backup":"CRISTINA",
+            "frontedns":["TVPB2B01", "TVPB2B03", "TVPB2B04", "BIGTVP05", "BIGTVP06"],
+            "bbdd": [
+				"NEWTOUR",
+				"GENOUT"
+			],
+            "other": "N/A"
+        },
+        {
+			"service": "AIREUROPA.COM",
+            "backend":"SIERRA",
+            "backup":"CRISTINA",
+            "frontedns":["AEAVENT01", "FRONTAEA01", "FRONTAEA05", "FRONTAEA06"],
+            "bbdd": [
+				"ORAWEB"
+			],
+            "other": "N/A"
+        },
 ]}
 //var services = '[{"service":"service1","ID":"1"}, {"service":"service2","ID":"2"}]';
 var jsonp = '[{"Language":"jQuery","ID":"1"}, {"Language":"C#","ID":"2"}]';

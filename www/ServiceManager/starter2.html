@@ -40,8 +40,12 @@
 	
 		$('.servicio').bind('click', function() {
 			var currentAnchor = $(this);
-			$('#orchestrator').empty();
-			$('#orchestratorLog').empty();
+			//$('#orchestrator').empty();
+			//$('#orchestratorLog').empty();
+			$('#fullLog').hide();
+			$('#orchestratorBody').empty();
+			$('#orchestratorBody').append('<div class="col-md-9 thinborder" id="orchestrator"></div>')
+			$('#orchestratorBody').append('<div class="col-md-3 thinborder orchestratorLog" id="orchestratorLog"></div>')
 			$('#orchestratorBody').fadeIn('slow');
 			$('#orchestrator').html("<h1>Administracion servicios "+currentAnchor.text()+"</h1>");
 			$('#orchestrator').append('<div id="backend" class="container">');
@@ -50,6 +54,34 @@
 			$('#orchestratorLog').append('<div id="logConsole" class="container">');
 			printArchitecture('#orchestrator', currentAnchor.text());
 			//alert(currentAnchor.attr('href'));
+		});
+		
+		$('#FrontalesBody').bind('click', function () {
+			var currentAnchor = $(this);
+			//$('#orchestrator').empty();
+			//$('#orchestratorLog').empty();
+			$('#fullLog').hide();
+			$('#orchestratorBody').empty();
+			$('#orchestratorBody').append('<div class="col-md-9 thinborder" id="orchestrator"></div>')
+			$('#orchestratorBody').append('<div class="col-md-3 thinborder orchestratorLog" id="orchestratorLog"></div>')
+			$('#orchestratorBody').fadeIn('slow');
+			$('#orchestrator').html("<h2>Administracion "+currentAnchor.text()+"</h2>");
+			$('#orchestrator').append('<div id="frontales" class="container">');
+			$('#orchestrator').append('<div id="control" class="container">');
+			$('#orchestratorLog').append('<div id="logConsole" class="container">');
+			printFrontales('#orchestrator');
+		});
+		
+		$('#homeLink').bind('click', function () {
+			$('#fullLog').hide();
+			$('#orchestratorBody').empty();
+			$('#orchestratorBody').fadeIn('slow');
+		});
+		
+		$('#contactLink').bind('click', function () {
+			$('#fullLog').hide();
+			$('#orchestratorBody').html('<h2 class="starter-template "><a href="mailto:julian.sotoca@globalia-sistemas.com">Julián García-Sotoca Pascual</a></h2>');
+			$('#orchestratorBody').fadeIn('slow');	
 		});
 		
 		$('#orchestratorBody').hide();
@@ -79,19 +111,20 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li class="active"><a href="#" id='homeLink'>Home</a></li>
+            <!--<li><a href="#about">About</a></li>-->
+            <li><a href="#contact" id='contactLink'>Contact</a></li>
+            <li><a href="#Frontales" id='FrontalesBody'>Frontales</a></li>
             <li class="dropdown" id='Mydropdown'>
 				  <!-- Link or button to toggle dropdown -->
-  <a href="#" class="dropdwon-toggle" data-toggle="dropdown">Servicios <b class="caret"></b></a>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="servicios">
-  <!--  <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">ORCL</a></li>
-    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">GFORCE</a></li>
-    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">NEWTOUR</a></li>
-    <li role="presentation" class="divider"></li>
-    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CONEXFLOW</a></li> -->
-  </ul>
+					<a href="#" class="dropdwon-toggle" data-toggle="dropdown">Servicios <b class="caret"></b></a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="servicios">
+					<!--  <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">ORCL</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">GFORCE</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="servicio">NEWTOUR</a></li>
+					<li role="presentation" class="divider"></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">CONEXFLOW</a></li> -->
+					</ul>
 			</li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -113,10 +146,10 @@
         <h1>Administración de servicios - Orchestrator</h1>
         <p class="lead">Seleccione el servicio sobre el que quiere realizar un mantenimiento o tarea programada.</p>
       </div>
-      <hr class="featurette-divider">
+      <hr class="featurette-divider thin-divider">
       <div id="orchestratorBody" class="container row">
-		  <div class="col-md-9 thinborder" id="orchestrator"></div>
-		  <div class="col-md-3 thinborder orchestratorLog" id="orchestratorLog"></div>
+		 <!-- <div class="col-md-9 thinborder" id="orchestrator"></div>
+		  <div class="col-md-3 thinborder orchestratorLog" id="orchestratorLog"></div>-->
       </div>
       <div id="fullLog" class="fullLog orchestratorLog container row">
 		  <div class="col-md-11" id="fullLogCont"></div>
@@ -135,7 +168,10 @@
 
 
 
-<div class="container" id="test">
+
+	
+	
+	
 <!--	<span class="lsf symbol">pc</span>
 <span class="lsf symbol">keyboard</span>
 <span class="lsf symbol">web</span>
@@ -181,6 +217,43 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="dist/js/bootstrap.min.js"></script>
 	<script>
+		printFrontales = function(container) {
+			var frontends='<div class="panel panel-success"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">web</span>Frontales: </p></div>';
+			frontends+='<div class="panel-footer"><div class="overflow">';
+			var index=0;
+			for (var i in services.services) {
+				for (var fend in services.services[i].frontedns) {
+					var frontend=services.services[i].frontedns[fend];
+					frontends+='<span><input type="checkbox" id="'+frontend+'" class="checkbox fend" checked /><label for='+frontend+'>' + frontend + '</label></span>';
+					index++;
+				}
+			}
+			frontends+='<span class="ctlchekbox fend"><input type="checkbox" id="MarcaTodosFend" class="checkbox" checked /><label for="MarcaTodosFend">Todos</label></span>';
+			frontends+='</div>';
+			frontends+='</div>';
+			$('#frontales').html(frontends);
+			var control='<div class="panel panel-info"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">setting</span>Control: </p></div>';
+			control+='<div class="panel-footer">';
+			control+='<button type="button" class="btn btn-xs btn-success"><span class="lsf symbol lsf-small">play</span><span class="accion">Arrancar</span></button>';
+			control+='<button type="button" class="btn btn-xs btn-danger"><span class="lsf symbol lsf-small">stop</span><span class="accion">Parar</span></button>';
+			control+='<button type="button" class="btn btn-xs btn-warning"><span class="lsf symbol lsf-small">share</span><span class="accion">Mover Backup</span></button>';
+			control+='<button type="button" class="btn btn-xs btn-info"><span class="lsf symbol lsf-small">comment</span><span class="accion">Full log</span></button>';
+			control+='<span class="ctlchekbox"><input type="checkbox" id="Disable" class="checkbox"/><label for="Disable"><span class="lsf symbol lsf-small">eraser</span>Deshabilita</label></span>';
+			control+='<span class="ctlchekbox"><button type="button" class="btn btn-xs btn-success"><span class="lsf symbol lsf-small">pen</span>Habilita</button></span>';
+			//control+='<input type="checkbox" id="enable" class="checkbox" checked/><label for="enable">Habilita</label>';
+			//control+='<button type="button" class="btn btn-xs btn-info">Resize Log</button>';
+			control+='</div></div>';
+			$('#control').html(control);
+			//controlButtons(service);
+			
+			var logConsole='<div class="panel panel-warning"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">memo</span>Log: </p></div>';
+			logConsole+='<div class="panel-footer logContent" id="logContent"><p>Inicio variables</p>';
+			logConsole+='</div></div>';
+			$('#logConsole').html(logConsole);
+			resizeOrchestrator();
+			$('.footer').css('position','relative');
+		}
+		
 		printArchitecture = function(container, service) {
 			/*var backend='<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title">Backend: </p></div>'; */
 			$('#backend').append('<div class="panel panel-danger"><div class="panel-heading"><p class="panel-title"><span class="lsf symbol">dashboard</span>Backend: </p></div>');

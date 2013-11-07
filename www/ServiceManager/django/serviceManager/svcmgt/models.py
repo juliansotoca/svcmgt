@@ -13,9 +13,14 @@ class Servicios(models.Model):
 
 
 class frontales(models.Model):
+	H='HI'
+	M='ME'
+	L='LO'
+	PRIORITIES_CHOICES=( (H, 'High'), (M, 'Medium'), (L, 'Low'))
 	idfrontal = models.AutoField(primary_key=True)
 	frontal = models.CharField(max_length=50, unique=True)
 	servicio = models.ForeignKey(Servicios)
+	prioridad = models.CharField(max_length=2, choices=PRIORITIES_CHOICES, default=M)
 	
 	def __unicode__(self):
 		return self.frontal
@@ -29,10 +34,15 @@ class backends(models.Model):
 		return self.backend
 	
 class baseDatos(models.Model):
+	H='HI'
+	M='ME'
+	L='LO'
+	PRIORITIES_CHOICES=( (H, 'High'), (M, 'Medium'), (L, 'Low'))
 	idbbdd = models.AutoField(primary_key=True)
 	bbdd = models.CharField(max_length=50, unique=True)
 	backendProd = models.ForeignKey(backends, related_name='prodServer')
 	backendBck = models.ForeignKey(backends, related_name='StandbyServer')
+	prioridad = models.CharField(max_length=2, choices=PRIORITIES_CHOICES, default=M)
 	
 	def __unicode__(self):
 		return self.bbdd
