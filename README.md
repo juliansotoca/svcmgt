@@ -43,3 +43,13 @@ $ git clone https://github.com/juliansotoca/svcmgt.git
 #update repo
 $ git pull origin
 
+#remove sensitive data
+$ FILE=file/to/delete
+$  git pull
+$  git fetch --tags
+$  git filter-branch --index-filter 'git rm --cached --ignore-unmatch ${FILE}' --tag-name-filter 'cat' HEAD --all
+$  git push origin master --force
+$  git filter-branch --index-filter 'git rm --cached --ignore-unmatch ${FILE}' --tag-name-filter 'cat' HEAD --all
+$  git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch ${FILE}' --tag-name-filter 'cat' HEAD --all
+
+source: http://www.azhowto.com/removing-sensitive-data-from-git/
